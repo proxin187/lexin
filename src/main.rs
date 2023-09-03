@@ -5,6 +5,11 @@ use parser::Parser;
 use std::env;
 use std::process;
 
+// NOTE: FINISH LATER
+fn format(tokens: Vec<lexer::Token>, format: &str) {
+    
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = env::args().collect::<Vec<String>>();
     if args.len() < 2 {

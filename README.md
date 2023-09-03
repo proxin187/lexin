@@ -1,6 +1,34 @@
+[![Stars][https://img.shields.io/github/stars/proxin187/lexin.svg?style=for-the-badge]]
+[![Forks][https://img.shields.io/github/forks/proxin187/lexin.svg?style=for-the-badge]]
+
 # Lexin
 
 A portable lexer.
+
+<li>
+    <a href="#Description">Description</a>
+</li>
+<li>
+    <a href="#getting-started">Getting Started</a>
+    <ul>
+    <li><a href="#Dependencies">Dependencies</a></li>
+    <li><a href="#Installing">Installing</a></li>
+    <li><a href="#Usage">Usage</a></li>
+    </ul>
+</li>
+<li>
+    <a href="#Lex">Lex File</a>
+    <ul>
+    <li><a href="#Keywords">Keywords</a></li>
+    <li><a href="#Symbols">Symbols</a></li>
+    <li><a href="#Sections">Sections</a></li>
+    <li><a href="#Name">Name</a></li>
+    </ul>
+</li>
+<li><a href="#Help">Help</a></li>
+<li><a href="#Authors">Authors</a></li>
+<li><a href="#Versions">Versions</a></li>
+<li><a href="#License">License</a></li>
 
 ## Description
 
@@ -26,12 +54,49 @@ git clone https://github.com/proxin187/lexin
 python build.py
 ```
 
-### Executing program
+### Usage
 
-* Create a lex file (see lex section)
+* Create a lex file [see lex section](#lex)
 * The program is executed the way shown below
 ```
-lexin [lex file] [file to lex] [options]
+Usage: lexin [lex file] [file to lex] [options]
+  Options:
+    -format: [formats]
+      formats:
+        json: output tokens in json format
+        python: output tokens in python format
+```
+
+## Lex
+Lexin uses a .lex file to input keywords and symbols to the lexer
+
+### Keywords
+Syntax: `_keywords [value]*`
+Example:
+```
+_keywords "fn" "if" "else" "match" "use"
+```
+### Symbols
+Syntax: `_symbols [value]*`
+Example:
+```
+_symbols "+" "-" "*" "/" "{" "}" "[" "]" "(" ")" "<" ">" ";" ":"
+```
+### Sections
+Syntax: `_sections [[start] - [end] [name]]*`
+Example:
+```
+_sections
+    "/*" - "*/" "comment"
+```
+### Name
+Names only apply to symbols
+Syntax: `_name [[value] [name]]*`
+Example:
+```
+_name
+    "+" "Plus"
+    "-" "Minus"
 ```
 
 ## Help
@@ -44,7 +109,7 @@ Contributors names and contact info
 
 * [Proxin](https://github.com/proxin187)
 
-## Version History
+## Versions
 
 * 0.2
     * README.md updates
