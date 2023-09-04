@@ -1,5 +1,5 @@
-[![Stars][https://img.shields.io/github/stars/proxin187/lexin.svg?style=for-the-badge]]
-[![Forks][https://img.shields.io/github/forks/proxin187/lexin.svg?style=for-the-badge]]
+<img src="https://img.shields.io/github/stars/proxin187/lexin.svg?style=for-the-badge" />
+<img src="https://img.shields.io/github/forks/proxin187/lexin.svg?style=for-the-badge" />
 
 # Lexin
 
