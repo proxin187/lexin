@@ -59,9 +59,9 @@ python build.py
 * Create a lex file [see lex section](#lex)
 * The program is executed the way shown below
 ```
-Usage: lexin [lex file] [file to lex] [options]
+Usage: lexin [config(*.lex)] [target] [options]
   Options:
-    -format: [formats]
+    -format: [formats] defaults to python
       formats:
         json: output tokens in json format
         python: output tokens in python format
