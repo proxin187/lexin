@@ -3,7 +3,7 @@
 
 # Lexin
 
-A portable lexer.
+A portable lexer frontend to lib-lexin.
 
 <li>
     <a href="#Description">Description</a>
@@ -32,7 +32,7 @@ A portable lexer.
 
 ## Description
 
-Lexin is a portable lexer that can easily be packaged with any application and has is able to lex all kinds of syntax's.
+Lexin is a portable lexer frontend to lib-lexin that can easily be packaged with any application and has is able to lex all kinds of syntax's.
 
 ## Getting Started
 

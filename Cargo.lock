@@ -3,5 +3,21 @@
 version = 3
 
 [[package]]
+name = "argin"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f091012e3906241f2a5436b43970f2c346c7aff2271ba34005402c093d88eb51"
+
+[[package]]
 name = "lexin"
 version = "0.1.0"
+dependencies = [
+ "argin",
+ "lib-lexin",
+]
+
+[[package]]
+name = "lib-lexin"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cfd4cd3e933070f364e6ce1941bfe6ee7b5fe3957a719e6f55e4ac7af5ec40e8"

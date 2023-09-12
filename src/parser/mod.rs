@@ -1,5 +1,4 @@
-use crate::lexer::{Token, Lexer, Section};
-use std::collections::HashMap;
+use lib_lexin::{Token, Lexer, Section};
 
 macro_rules! safe_index {
     ($index:expr, $len:expr) => {
@@ -9,27 +8,36 @@ macro_rules! safe_index {
     };
 }
 
+// shitty alternative to hashmap because hashmap uses immutable borrow in get() :(
+struct Names(Vec<(String, String)>);
+
+impl Names {
+    pub fn new() -> Names {
+        return Names(Vec::new());
+    }
+
+    pub fn get(&self, name: &str) -> Option<String> {
+        for value in &self.0 {
+            if &value.0 == name {
+                return Some(value.1.clone());
+            }
+        }
+        return None;
+    }
+
+    pub fn push(&mut self, name: &str, value: String) {
+        self.0.push((name.to_string(), value));
+    }
+}
+
 pub struct Parser<'a> {
     tokens: &'a Vec<Token>,
 }
 
 impl<'a> Parser<'a> {
-    fn get_str(&self, token: &Token) -> Result<String, Box<dyn std::error::Error>> {
-        if let Token::Section(_, string) = token {
-            return Ok(string.clone());
-        } else {
-            return Err(format!("expected String but got {:?}", token).into());
-        }
-
-    }
-
     pub fn parse(&self) -> Result<Lexer, Box<dyn std::error::Error>> {
-        let mut lexer = Lexer {
-            keywords: Vec::new(),
-            sections: Vec::new(),
-            symbols: Vec::new(),
-        };
-        let mut names: HashMap<String, String> = HashMap::new();
+        let mut lexer = Lexer::new(&[], &[], &[]);
+        let mut names: Names = Names::new();
         let mut index = 0;
 
         while index < self.tokens.len() {
@@ -46,7 +54,8 @@ impl<'a> Parser<'a> {
                     } else if keyword == "_symbols" {
                         index += 1;
                         while let Token::Section(_, value) = &self.tokens[index] {
-                            lexer.symbols.push((value.as_bytes()[0] as char, names.get(value).unwrap_or(&"".to_string()).to_string()));
+                            let name = names.get(value).unwrap_or(String::new());
+                            lexer.symbols.push((value.as_bytes()[0] as char, name));
                             index += 1;
                             safe_index!(index, self.tokens.len());
                         }
@@ -55,7 +64,7 @@ impl<'a> Parser<'a> {
                         index += 1;
                         while let Token::Section(_, value) = &self.tokens[index] {
                             index += 1;
-                            names.insert(value.clone(), self.get_str(&self.tokens[index])?);
+                            names.push(value, self.tokens[index].is_section("string")?);
                             index += 1;
                             safe_index!(index, self.tokens.len());
                         }
@@ -69,13 +78,13 @@ impl<'a> Parser<'a> {
                                 return Err(format!("expected Symbol but got {:?}", self.tokens[index]).into());
                             }
 
-                            let end = self.get_str(&self.tokens[index + 1])?;
-                            let name = self.get_str(&self.tokens[index + 2])?;
-                            lexer.sections.push(Section {
-                                name: name.clone(),
-                                start: start.clone(),
-                                end,
-                            });
+                            let end = self.tokens[index + 1].is_section("string")?;
+                            let name = self.tokens[index + 2].is_section("string")?;
+                            lexer.sections.push(Section::new(
+                                &name,
+                                start,
+                                &end,
+                            ));
                             index += 3;
                             safe_index!(index, self.tokens.len());
                         }
